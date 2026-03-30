@@ -1,0 +1,49 @@
+id: write-sandbox-report
+name: Write Sandbox Report
+version: 1.0.0
+description: Write a deterministic report file only inside the pre-created examples generated directory.
+permissions:
+  - name: filesystem.write
+    reason: Write a report file inside a narrowly allowlisted directory.
+inputs: []
+triggers:
+  - type: manual
+    description: Manually generate a report artifact.
+steps:
+  - id: write-report
+    type: writeFile
+    path: ./examples/generated/report.txt
+    content: |
+      secure-clawflows example report
+      generated: manual
+      mode: deterministic
+    ifExists: overwrite
+outputs:
+  - name: reportPath
+    description: The generated report file path.
+    fromStep: write-report
+rollback:
+  steps:
+    - id: clear-report
+      type: writeFile
+      path: ./examples/generated/report.txt
+      content: ""
+      ifExists: overwrite
+safety:
+  dryRunByDefault: true
+  requireExplicitConfirmation: true
+  allowlists:
+    commands: []
+    paths:
+      - ./examples/generated
+    hosts: []
+  limits:
+    stepTimeoutMs: 5000
+    maxOutputBytes: 8192
+  guards:
+    blockUnsafeShellInterpolation: true
+    redactSecrets: true
+audit:
+  logFile: .secure-clawflows/audit.log.jsonl
+  includePlan: true
+  includeEnvironment: false

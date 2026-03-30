@@ -1,0 +1,43 @@
+id: verify-node-runtime
+name: Verify Node Runtime
+version: 1.0.0
+description: Confirm that the local Node.js runtime is available by running a single allowlisted executable without a shell.
+permissions:
+  - name: command.exec
+    reason: Run node --version using spawn without shell interpretation.
+inputs: []
+triggers:
+  - type: manual
+    description: Manually confirm local runtime availability.
+steps:
+  - id: node-version
+    type: runCommand
+    command: node
+    args:
+      - --version
+    captureOutput: true
+outputs:
+  - name: runtimeVersion
+    description: Captured stdout from the Node.js version check.
+    fromStep: node-version
+rollback:
+  steps: []
+safety:
+  dryRunByDefault: true
+  requireExplicitConfirmation: true
+  allowlists:
+    commands:
+      - node
+    paths:
+      - .
+    hosts: []
+  limits:
+    stepTimeoutMs: 5000
+    maxOutputBytes: 16384
+  guards:
+    blockUnsafeShellInterpolation: true
+    redactSecrets: true
+audit:
+  logFile: .secure-clawflows/audit.log.jsonl
+  includePlan: true
+  includeEnvironment: false

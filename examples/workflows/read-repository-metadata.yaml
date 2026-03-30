@@ -1,0 +1,41 @@
+id: read-repository-metadata
+name: Read Repository Metadata
+version: 1.0.0
+description: Read the top-level README file from the repository without leaving the approved path scope.
+permissions:
+  - name: filesystem.read
+    reason: Read the repository README to inspect project metadata.
+inputs: []
+triggers:
+  - type: manual
+    description: Manually inspect repository metadata.
+steps:
+  - id: read-readme
+    type: readFile
+    path: ./README.md
+    encoding: utf8
+    maxBytes: 4096
+outputs:
+  - name: readmeContent
+    description: Captured content from the repository README.
+    fromStep: read-readme
+rollback:
+  steps: []
+safety:
+  dryRunByDefault: true
+  requireExplicitConfirmation: true
+  allowlists:
+    commands: []
+    paths:
+      - ./README.md
+    hosts: []
+  limits:
+    stepTimeoutMs: 5000
+    maxOutputBytes: 8192
+  guards:
+    blockUnsafeShellInterpolation: true
+    redactSecrets: true
+audit:
+  logFile: .secure-clawflows/audit.log.jsonl
+  includePlan: true
+  includeEnvironment: false

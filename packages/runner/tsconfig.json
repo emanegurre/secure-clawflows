@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "references": [
+    { "path": "../schema" },
+    { "path": "../policy-engine" },
+    { "path": "../core" },
+    { "path": "../audit" }
+  ],
+  "include": ["src/**/*.ts"]
+}
