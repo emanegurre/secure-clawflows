@@ -1,0 +1,24 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/schema" },
+    { "path": "./packages/policy-engine" },
+    { "path": "./packages/core" },
+    { "path": "./packages/audit" },
+    { "path": "./packages/integrations" },
+    { "path": "./packages/runner" },
+    { "path": "./packages/cli" }
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@secure-clawflows/audit": ["packages/audit/src/index.ts"],
+      "@secure-clawflows/cli": ["packages/cli/src/index.ts"],
+      "@secure-clawflows/core": ["packages/core/src/index.ts"],
+      "@secure-clawflows/integrations": ["packages/integrations/src/index.ts"],
+      "@secure-clawflows/policy-engine": ["packages/policy-engine/src/index.ts"],
+      "@secure-clawflows/runner": ["packages/runner/src/index.ts"],
+      "@secure-clawflows/schema": ["packages/schema/src/index.ts"]
+    }
+  }
+}
